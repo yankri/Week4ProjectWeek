@@ -1,0 +1,6 @@
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\bin\Debug\Project Wek.exe.config
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\bin\Debug\Project Wek.exe
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\bin\Debug\Project Wek.pdb
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\obj\Debug\Project Wek.csprojResolveAssemblyReference.cache
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\obj\Debug\Project Wek.exe
+C:\Users\WeCanCodeIT\Documents\Week 4\Project Wek\Project Wek\obj\Debug\Project Wek.pdb
