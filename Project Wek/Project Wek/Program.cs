@@ -7,17 +7,6 @@ using System.Threading.Tasks;
 
 namespace Project_Wek
 {
-    public static class Extensions
-    {
-        //http://stackoverflow.com/questions/17563929/how-to-make-string-contains-case-insensitive
-        //mystring.Contains(myStringToCheck, StringComparison.OrdinalIgnoreCase);
-
-        public static bool CIContains(this string source, string toCheck, StringComparison comp) 
-        {
-            return source != null && toCheck != null && source.IndexOf(toCheck, comp) >= 0;
-        }
-    }
-
     class Program
     {
         public static bool Restart(int userInput)
@@ -62,8 +51,6 @@ namespace Project_Wek
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\n\nWelcome to Bootcamp Resources Checkout System! \n\n\n\n");
-
             string password = "admin123";
 
             List<string> students = new List<string> { "Krista Scholdberg", "Ashley Stewart", "Cadale Thomas", "Lawrence Hudson", "Jennifer Evans", "Kimberly Vargas", "Jacob Lockyer", "Richard Raponi", "Imari Childress", "Mary Winkelman", "Cameron Robinson", "Margaret Landefield", "Quinn Bennett", "Sirahn CouldntFindHisLastName" };
@@ -105,6 +92,8 @@ namespace Project_Wek
 
                 while (result == false)
                 {
+                    Console.WriteLine("\n\nWelcome to Bootcamp Resources Checkout System! \n\n");
+
                     Console.WriteLine("Enter a number to select a menu option: \n");
                     Console.WriteLine(mainMenu[0]);
                     Console.WriteLine(mainMenu[1]);
@@ -154,9 +143,10 @@ namespace Project_Wek
                 {
                     case 1:
                         string resourceInput;
-                        string resourcePosition;
+                        int resourcePosition;
                         string nameInput;
-                        string namePosition;
+                        int namePosition;
+
                         Console.WriteLine("View the List of Current Students\n\n"); //print with correct capitalization
                         for (int i = 0; i < students.Count; i++)
                         {
@@ -203,9 +193,9 @@ namespace Project_Wek
                                 continue;
                             }
 
-                            namePosition = LCStudents.IndexOf(nameInput).ToString();
+                            namePosition = LCStudents.IndexOf(nameInput);
 
-                            if (checkedOutResources[Convert.ToInt32(namePosition)].Count == 0)
+                            if (checkedOutResources[namePosition].Count == 0)
                             {
                                 Console.WriteLine("Nothing is checked out...\n");
                                 break;
@@ -213,12 +203,13 @@ namespace Project_Wek
 
                             else
                             {
-                                checkedOutResources[Convert.ToInt32(namePosition)].Sort();
+                                checkedOutResources[namePosition].Sort();
 
-                                for (int i = 0; i < checkedOutResources[Convert.ToInt32(namePosition)].Count; i++)
+                                for (int i = 0; i < checkedOutResources[namePosition].Count; i++)
                                 {
-                                    Console.WriteLine(checkedOutResources[Convert.ToInt32(namePosition)][i]);
+                                    Console.WriteLine(checkedOutResources[namePosition][i]);
                                 }
+
                                 Console.WriteLine();
                                 break;
                             }
@@ -231,7 +222,7 @@ namespace Project_Wek
                             Console.WriteLine("Checkout an Item\n");
                             Console.WriteLine("Enter a Name: \n");
                             nameInput = Console.ReadLine().ToLower();
-                            namePosition = LCStudents.IndexOf(nameInput).ToString();
+                            namePosition = LCStudents.IndexOf(nameInput);
 
                             if (nameInput == "quit")
                             {
@@ -271,7 +262,7 @@ namespace Project_Wek
 
                             Console.WriteLine("Enter the name of the resource you want to checkout:\n");
                             resourceInput = Console.ReadLine().ToLower();
-                            resourcePosition = LCResources.IndexOf(resourceInput).ToString();
+                            resourcePosition = LCResources.IndexOf(resourceInput);
 
                             if (resourceInput == "quit")
                             {
@@ -291,7 +282,7 @@ namespace Project_Wek
                                 continue;
                             }
 
-                            if (checkedOutResources[Convert.ToInt32(namePosition)].Count == 3)
+                            if (checkedOutResources[namePosition].Count == 3)
                             {
                                 Console.WriteLine(nameInput + " has checked out the maximum number of resources.");
                                 doubleContinue = true;
@@ -307,11 +298,11 @@ namespace Project_Wek
                             if (LCResources.Contains(resourceInput)) //checks to make sure the resource is in resources List and then removes it from resources list to check it out
                             {
                                 Console.WriteLine( nameInput + " has checked out " + resourceInput + ".");
-                                LCResources.Remove(LCResources[Convert.ToInt32(resourcePosition)]);
+                                LCResources.Remove(LCResources[resourcePosition]);
                                 LCResources.Sort();
                             }
 
-                            checkedOutResources[Convert.ToInt32(namePosition)].Add(resourceInput); //adds the resource to the checked out resources
+                            checkedOutResources[namePosition].Add(resourceInput); //adds the resource to the checked out resources
 
                             Console.WriteLine("Would you like to checkout another resource? Enter \"yes\" or \"no\".");
 
@@ -343,7 +334,7 @@ namespace Project_Wek
 
                             Console.WriteLine("Enter a name:");
                             nameInput = Console.ReadLine().ToLower();
-                            namePosition = LCStudents.IndexOf(nameInput).ToString();
+                            namePosition = LCStudents.IndexOf(nameInput);
                             
                             if (nameInput == "quit")
                             {
@@ -378,22 +369,22 @@ namespace Project_Wek
                                 break;
                             }
 
-                            if (!checkedOutResources[Convert.ToInt32(namePosition)].Contains(resourceInput))
+                            if (!checkedOutResources[namePosition].Contains(resourceInput))
                             {
                                 Console.WriteLine("Error: Request Unavailable");
                             }
 
-                            if (checkedOutResources[Convert.ToInt32(namePosition)].Count == 0)
+                            if (checkedOutResources[namePosition].Count == 0)
                             {
                                 Console.WriteLine("You don't have any resources to return.");
                                 doubleContinue = true;
                                 break;
                             }
                             
-                            if (!LCResources.Contains(resourceInput) && checkedOutResources[Convert.ToInt32(namePosition)].Contains(resourceInput))
+                            if (!LCResources.Contains(resourceInput) && checkedOutResources[namePosition].Contains(resourceInput))
                             {
                                 LCResources.Add(resourceInput);
-                                checkedOutResources[Convert.ToInt32(namePosition)].Remove(resourceInput);
+                                checkedOutResources[namePosition].Remove(resourceInput);
                                 Console.WriteLine(resourceInput + " has been returned.");
                                 LCResources.Sort();
                             }
