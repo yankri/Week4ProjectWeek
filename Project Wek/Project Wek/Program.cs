@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Project_Wek
 {
@@ -51,25 +47,25 @@ namespace Project_Wek
 
         static void Main(string[] args)
         {
-            string password = "admin123";
+            const string password = "admin123"; //admin menu password, const makes it so it can't be changed
 
-            List<string> students = new List<string> { "Krista Scholdberg", "Ashley Stewart", "Cadale Thomas", "Lawrence Hudson", "Jennifer Evans", "Kimberly Vargas", "Jacob Lockyer", "Richard Raponi", "Imari Childress", "Mary Winkelman", "Cameron Robinson", "Margaret Landefield", "Quinn Bennett", "Sirahn CouldntFindHisLastName" };
+            List<string> students = new List<string> { "Krista Scholdberg", "Ashley Stewart", "Cadale Thomas", "Lawrence Hudson", "Jennifer Evans", "Kimberly Vargas", "Jacob Lockyer", "Richard Raponi", "Imari Childress", "Mary Winkelman", "Cameron Robinson", "Margaret Landefield", "Quinn Bennett" };
             List<string> resources = new List<string> { "Visual C#", "C# Player's Guide", "Javascript for Kids", "HTML & CSS", "SQL Databases", "Git for Beginners", "Java for Dummies", "C# for Dummies", "Ruby on Rails", "Visual Studio for Beginners" };
-            List<List<string>> checkedOutResources = new List<List<string>> (); //first index will be the index as a string of the person's name in students
+            List<List<string>> checkedOutResources = new List<List<string>> (); //first index will be the index as a string of the person's name in students. This list stores the user's checked out resources. contained list indices match the user's index in students
             List<string> LCStudents = new List<string> ();
             List<string> LCResources = new List<string> ();
 
-            for (int i = 0; i < students.Count; i++)
+            for (int i = 0; i < students.Count; i++) //converts each member in the list to all lowercase and saves it in a new list
             {
                 LCStudents.Add(students[i].ToLower());
             }
 
-            for (int i = 0; i <resources.Count; i++)
+            for (int i = 0; i < resources.Count; i++)
             {
                 LCResources.Add(resources[i].ToLower());
             }
 
-            for (int i = 0; i < students.Count; i++)
+            for (int i = 0; i < students.Count; i++) //populates the checkedoutresources list with empty lists of strings
             {
                 checkedOutResources.Add(new List <string> ());
             }
@@ -80,13 +76,12 @@ namespace Project_Wek
             LCStudents.Sort();
 
             string[] mainMenu = { "1 - View Students", "2 - View Available Resources", "3 - View Student Accounts", "4 - Checkout Item", "5 - Return Item", "6 - Exit", "7 - Start Over", "8 - Admin Menu\n" };
+            string[] adminMenu = { "\nAdministrator Menu\n", "Please choose an option: \n", "A - Add a student", "B - Add a resource", "C - Delete a student", "D - Delete a resource", "E - Exit admin menu", "F - Exit program" };
 
-            while(true)
+            while (true)
             { 
                 bool doubleContinue = false;
                 bool doubleBreak = false;
-                bool tripleContinue = false;
-
                 bool result = false;
                 int choice = 0;
 
@@ -106,7 +101,7 @@ namespace Project_Wek
 
                     string menuChoice = Console.ReadLine().ToLower();
                     Console.WriteLine();
-                    result = int.TryParse(menuChoice, out choice);
+                    result = int.TryParse(menuChoice, out choice); //makes sure the entry is a number, and if not makes the user enter it again
                    
                     if (Quit(choice))
                     {
@@ -132,45 +127,46 @@ namespace Project_Wek
                 {
                     break;
                 }
+
                 if (doubleContinue == true) //restarts the program
                 {
                     continue; 
                 }
 
-                
-
+                //Main Menu
                 switch (choice)
                 {
                     case 1:
-                        string resourceInput;
+                        string resourceInput; //defined these here so I could reuse them in the switch case
                         int resourcePosition;
                         string nameInput;
                         int namePosition;
 
-                        Console.WriteLine("View the List of Current Students\n\n"); //print with correct capitalization
+                        Console.WriteLine("View the List of Current Students\n\n"); 
                         for (int i = 0; i < students.Count; i++)
                         {
                             Console.WriteLine(students[i]);
                         }
+
                         Console.WriteLine();
                         break;
 
                     case 2:
-                        Console.WriteLine("Available Resources\n"); //print with correct capitalization
+                        Console.WriteLine("Available Resources\n"); 
 
                         if (LCResources.Count == 0)
                         {
                             Console.WriteLine("All resources are checked out.");
                             break;
                         }
-                        for (int i = 0; i < resources.Count; i++)
+
+                        for (int i = 0; i < resources.Count; i++) //this loop prints out the resources in proper title case from resources by checking to see if each index in resources is in LCResources and only printing if they are
                         {
                             string check = resources[i];
                             if (LCResources.Contains(check.ToLower()))
                             {
                                 Console.WriteLine(check);
                             }
-
                             else
                             {
                                 continue;
@@ -187,25 +183,24 @@ namespace Project_Wek
                             nameInput = Console.ReadLine().ToLower();
                             Console.WriteLine();
 
-                            if (!LCStudents.Contains(nameInput))
+                            if (!LCStudents.Contains(nameInput)) //checks to see if the user exists
                             {
                                 Console.WriteLine("ERROR: request unavailable");
                                 continue;
                             }
 
-                            namePosition = LCStudents.IndexOf(nameInput);
+                            namePosition = LCStudents.IndexOf(nameInput); //this variable is used to get the index of the name in students so it can be used later to find the appropriate list in checkedoutresources
 
-                            if (checkedOutResources[namePosition].Count == 0)
+                            if (checkedOutResources[namePosition].Count == 0) //checks to see if the user has anything checked out
                             {
                                 Console.WriteLine("Nothing is checked out...\n");
                                 break;
                             }
-
                             else
                             {
-                                checkedOutResources[namePosition].Sort();
+                                checkedOutResources[namePosition].Sort(); //makes sure the list is sorted when printed
 
-                                for (int i = 0; i < checkedOutResources[namePosition].Count; i++)
+                                for (int i = 0; i < checkedOutResources[namePosition].Count; i++) //this loop prints out the checked out items in the user's list
                                 {
                                     Console.WriteLine(checkedOutResources[namePosition][i]);
                                 }
@@ -236,7 +231,7 @@ namespace Project_Wek
                                 break;
                             }
 
-                            if (LCStudents.Contains(nameInput))
+                            if (LCStudents.Contains(nameInput)) //checks to make sure the name is in the list, and if not, prints error and the loop runs again. if it is in the list, it breaks this while loop and goes to resources
                             {
                                 break;
                             }
@@ -258,7 +253,7 @@ namespace Project_Wek
 
                         while (true)
                         {
-                            resources.Sort();
+                            LCResources.Sort();
 
                             Console.WriteLine("Enter the name of the resource you want to checkout:\n");
                             resourceInput = Console.ReadLine().ToLower();
@@ -276,13 +271,13 @@ namespace Project_Wek
                                 break;
                             }
 
-                            if (!LCResources.Contains(resourceInput))
+                            if (!LCResources.Contains(resourceInput)) //makes sure the resource entered exists
                             {
                                 Console.WriteLine("That resource does not exist. Please try again. ");
                                 continue;
                             }
 
-                            if (checkedOutResources[namePosition].Count == 3)
+                            if (checkedOutResources[namePosition].Count == 3) //checks to make sure the user doesnt have more than 3 resources checked out
                             {
                                 Console.WriteLine(nameInput + " has checked out the maximum number of resources.");
                                 doubleContinue = true;
@@ -313,6 +308,7 @@ namespace Project_Wek
                                 doubleContinue = true;
                                 break;
                             }
+
                             if (moreCheckout == "yes")
                             {
                                 continue;
@@ -323,6 +319,7 @@ namespace Project_Wek
                         {
                             continue;
                         }
+
                         break;
 
                     case 5:
@@ -369,24 +366,24 @@ namespace Project_Wek
                                 break;
                             }
 
-                            if (!checkedOutResources[namePosition].Contains(resourceInput))
+                            if (!checkedOutResources[namePosition].Contains(resourceInput)) //checks to see if the resource is actually in the user's checked out list 
                             {
                                 Console.WriteLine("Error: Request Unavailable");
                             }
 
-                            if (checkedOutResources[namePosition].Count == 0)
+                            if (checkedOutResources[namePosition].Count == 0) //checks to see if there is anything to return
                             {
                                 Console.WriteLine("You don't have any resources to return.");
                                 doubleContinue = true;
                                 break;
                             }
                             
-                            if (!LCResources.Contains(resourceInput) && checkedOutResources[namePosition].Contains(resourceInput))
+                            if (!LCResources.Contains(resourceInput) && checkedOutResources[namePosition].Contains(resourceInput)) //this is a redundant check to make sure that the resource has been checked out by being deleted from LCResources and added to the user's list, both should be true if the user checked it out
                             {
-                                LCResources.Add(resourceInput);
-                                checkedOutResources[namePosition].Remove(resourceInput);
+                                LCResources.Add(resourceInput); //adds the resource back to the available resources
+                                checkedOutResources[namePosition].Remove(resourceInput); //removes the resource from the user's list
                                 Console.WriteLine(resourceInput + " has been returned.");
-                                LCResources.Sort();
+                                LCResources.Sort(); //resorts the list once the resource has been readded
                             }
 
                             Console.WriteLine("Would you like to return another resource? Enter \"yes\" or \"no\".");
@@ -398,6 +395,7 @@ namespace Project_Wek
                                 doubleContinue = true;
                                 break;
                             }
+
                             if (moreReturn == "yes")
                             {
                                 continue;
@@ -408,6 +406,7 @@ namespace Project_Wek
                         {
                             break;
                         }
+
                         if (doubleContinue == true)
                         {
                             continue;
@@ -436,37 +435,30 @@ namespace Project_Wek
                                 Console.WriteLine("Please enter the administrator password: ");
                                 string passwordInput = Console.ReadLine();
 
-                                if (counter == 2)
+                                if (counter == 2) //restarts the program if the password is entered incorrectly too many times
                                 {
                                     Console.WriteLine("You have entered the password wrong too many times. Restarting...");
                                     doubleContinue = true;
                                     break;
                                 }
 
-                                if (!passwordInput.Equals(password))
+                                if (!passwordInput.Equals(password)) //checks to make sure the password is correct. this part is case sensitive
                                 {
                                     Console.WriteLine("INVALID PASSWORD!!!");
-                                    doubleContinue = true;
-                                    counter++;
+                                    counter++; //increments the password counter to count the number of invalid attempts
                                     continue;
                                 }
                                 else
                                 {
-                                    passwordEntered = true;
+                                    passwordEntered = true; //if the password gets entered correctly, this bool variable breaks the loop that will keep asking for the password up to three attempts.
                                 }
                             }
-
                             else
                             {
-                                Console.WriteLine("Administrator Menu\n");
-                                Console.WriteLine("Please choose an option: \n");
-
-                                Console.WriteLine("A - Add a student");
-                                Console.WriteLine("B - Add a resource");
-                                Console.WriteLine("C - Delete a student");
-                                Console.WriteLine("D - Delete a resource");
-                                Console.WriteLine("E - Exit admin menu");
-                                Console.WriteLine("F - Exit program");
+                                foreach (string item in adminMenu) // prints the admin menu
+                                {
+                                    Console.WriteLine(item);
+                                }
 
                                 string menuChoice = Console.ReadLine().ToUpper();
                                 Console.WriteLine();
@@ -504,8 +496,14 @@ namespace Project_Wek
                                                 continue;
                                             }
 
+                                            if (students.Contains(newStudent))
+                                            {
+                                                Console.WriteLine("That student already exists!");
+                                                continue;
+                                            }
+
                                             LCStudents.Add(newStudent);
-                                            LCStudents.Sort();
+                                            LCStudents.Sort(); //resorts the list once the new student is added
 
                                             Console.WriteLine("Would you like to enter another student? Enter \"yes\" or \"no\".");
                                             string addInput = Console.ReadLine().ToLower();
@@ -540,13 +538,16 @@ namespace Project_Wek
                                             {
                                                 continue;
                                             }
-
-                                            if (!LCResources.Contains(newResource))
+                                            // TODO: Methodize whole if statement below
+                                            if (!LCResources.Contains(newResource)) //makes sure the resource isn't already in there
                                             {
                                                 LCResources.Add(newResource);
+                                                resources.Add(newResource);
                                                 Console.WriteLine(newResource + " has been added to the list.\n");
-                                                LCResources.Sort();
+                                                LCResources.Sort(); //resorts with the new addition 
+                                                resources.Sort();
                                             }
+
                                             else
                                             {
                                                 Console.WriteLine("That resource is already in the list.");
@@ -556,7 +557,6 @@ namespace Project_Wek
                                             Console.WriteLine("Would you like to enter another resource? Type \"yes\" or \"no\".");
 
                                             string addInput = Console.ReadLine().ToLower();
-
 
                                             if (addInput == "yes")
                                             {
@@ -568,6 +568,7 @@ namespace Project_Wek
                                                 break;
                                             }
                                         }
+
                                         break;
 
                                     case "C": //delete a student 
@@ -590,7 +591,7 @@ namespace Project_Wek
                                                 continue;
                                             }
 
-                                            if (LCStudents.Contains(deleteStudent))
+                                            if (LCStudents.Contains(deleteStudent)) //will only delete if the student is actually in there, otherwise you get an error
                                             {
                                                 LCStudents.Remove(deleteStudent);
                                                 Console.WriteLine(deleteStudent + " has been removed.\n");
@@ -601,6 +602,7 @@ namespace Project_Wek
                                                 Console.WriteLine("ERROR: Request Unavailable. That student does not exist.");
                                                 continue;
                                             }
+
                                             Console.WriteLine("Would you like to delete another student? Enter \"yes\" or \"no\".");
                                             string addInput = Console.ReadLine().ToLower();
 
@@ -648,7 +650,7 @@ namespace Project_Wek
                                                 continue;
                                             }
 
-                                            if (LCResources.Contains(deleteResource))
+                                            if (LCResources.Contains(deleteResource)) //makes sure the resource exists before it's deleted
                                             {
                                                 LCResources.Remove(deleteResource);
                                                 Console.WriteLine(deleteResource + " has been removed.\n");
@@ -658,6 +660,19 @@ namespace Project_Wek
                                             {
                                                 Console.WriteLine("ERROR: Request Unavailable. That resource does not exist.");
                                                 continue;
+                                            }
+
+                                            Console.WriteLine("Would you like to delete another resource? Enter \"yes\" or \"no\".");
+                                            string addInput = Console.ReadLine().ToLower();
+
+                                            if (addInput == "yes")
+                                            {
+                                                continue;
+                                            }
+
+                                            if (addInput == "no")
+                                            {
+                                                break;
                                             }
                                         }
 
@@ -700,21 +715,11 @@ namespace Project_Wek
                             {
                                 break;
                             }
-
-                            if (tripleContinue == true)
-                            {
-                                break;
-                            }
                         }
                         
                         if (doubleContinue == true)
                         {
                             continue;
-                        }
-
-                        if (tripleContinue == true)
-                        {
-                            break;
                         }
 
                         break;
@@ -732,13 +737,8 @@ namespace Project_Wek
                 {
                     continue;
                 }
-                if (tripleContinue == true)
-                {
-                    continue;
-                }
             }
-
-            
         }
     }
 }
+
