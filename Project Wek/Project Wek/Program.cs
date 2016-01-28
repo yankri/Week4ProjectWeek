@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace Project_Wek
 {
+    public static class Extensions
+    {
+        //http://stackoverflow.com/questions/17563929/how-to-make-string-contains-case-insensitive
+        //mystring.Contains(myStringToCheck, StringComparison.OrdinalIgnoreCase);
+
+        public static bool CIContains(this string source, string toCheck, StringComparison comp) 
+        {
+            return source != null && toCheck != null && source.IndexOf(toCheck, comp) >= 0;
+        }
+    }
+
     class Program
     {
         public static bool Restart(int userInput)
@@ -81,6 +92,8 @@ namespace Project_Wek
             LCResources.Sort();
             LCStudents.Sort();
 
+            string[] mainMenu = { "1 - View Students", "2 - View Available Resources", "3 - View Student Accounts", "4 - Checkout Item", "5 - Return Item", "6 - Exit", "7 - Start Over", "8 - Admin Menu\n" };
+
             while(true)
             { 
                 bool doubleContinue = false;
@@ -93,14 +106,14 @@ namespace Project_Wek
                 while (result == false)
                 {
                     Console.WriteLine("Enter a number to select a menu option: \n");
-                    Console.WriteLine("1 - View Students");
-                    Console.WriteLine("2 - View Available Resources");
-                    Console.WriteLine("3 - View Student Accounts");
-                    Console.WriteLine("4 - Checkout Item");
-                    Console.WriteLine("5 - Return Item");
-                    Console.WriteLine("6 - Exit");
-                    Console.WriteLine("7 - Start Over");
-                    Console.WriteLine("8 - Admin Menu\n");
+                    Console.WriteLine(mainMenu[0]);
+                    Console.WriteLine(mainMenu[1]);
+                    Console.WriteLine(mainMenu[2]);
+                    Console.WriteLine(mainMenu[3]);
+                    Console.WriteLine(mainMenu[4]);
+                    Console.WriteLine(mainMenu[5]);
+                    Console.WriteLine(mainMenu[6]);
+                    Console.WriteLine(mainMenu[7]);
 
                     string menuChoice = Console.ReadLine().ToLower();
                     Console.WriteLine();
@@ -160,9 +173,18 @@ namespace Project_Wek
                             Console.WriteLine("All resources are checked out.");
                             break;
                         }
-                        for (int i = 0; i < LCResources.Count; i++)
+                        for (int i = 0; i < resources.Count; i++)
                         {
-                            Console.WriteLine(LCResources[i]);
+                            string check = resources[i];
+                            if (LCResources.Contains(check.ToLower()))
+                            {
+                                Console.WriteLine(check);
+                            }
+
+                            else
+                            {
+                                continue;
+                            }
                         }
                         Console.WriteLine();
                         break;
@@ -682,10 +704,12 @@ namespace Project_Wek
                             {
                                 break;
                             }
+
                             if (doubleContinue == true) 
                             {
                                 break;
                             }
+
                             if (tripleContinue == true)
                             {
                                 break;
@@ -696,6 +720,7 @@ namespace Project_Wek
                         {
                             continue;
                         }
+
                         if (tripleContinue == true)
                         {
                             break;
@@ -720,7 +745,6 @@ namespace Project_Wek
                 {
                     continue;
                 }
-
             }
 
             
