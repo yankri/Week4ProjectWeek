@@ -49,6 +49,8 @@ namespace Project_Wek
         {
             const string password = "admin123"; //admin menu password, const makes it so it can't be changed
 
+            int maxCheckedOutResources = 3;
+
             List<string> students = new List<string> { "Krista Scholdberg", "Ashley Stewart", "Cadale Thomas", "Lawrence Hudson", "Jennifer Evans", "Kimberly Vargas", "Jacob Lockyer", "Richard Raponi", "Imari Childress", "Mary Winkelman", "Cameron Robinson", "Margaret Landefield", "Quinn Bennett" };
             List<string> resources = new List<string> { "Visual C#", "C# Player's Guide", "Javascript for Kids", "HTML & CSS", "SQL Databases", "Git for Beginners", "Java for Dummies", "C# for Dummies", "Ruby on Rails", "Visual Studio for Beginners" };
             List<List<string>> checkedOutResources = new List<List<string>> (); //first index will be the index as a string of the person's name in students. This list stores the user's checked out resources. contained list indices match the user's index in students
@@ -185,7 +187,7 @@ namespace Project_Wek
 
                             if (!LCStudents.Contains(nameInput)) //checks to see if the user exists
                             {
-                                Console.WriteLine("ERROR: request unavailable");
+                                Console.WriteLine("\aERROR: request unavailable");
                                 continue;
                             }
 
@@ -237,7 +239,7 @@ namespace Project_Wek
                             }
                             else
                             {
-                                Console.WriteLine("Error: Request Unavailable");
+                                Console.WriteLine("\aError: Request Unavailable");
                             }
                         }
 
@@ -273,11 +275,11 @@ namespace Project_Wek
 
                             if (!LCResources.Contains(resourceInput)) //makes sure the resource entered exists
                             {
-                                Console.WriteLine("That resource does not exist. Please try again. ");
+                                Console.WriteLine("\aThat resource does not exist. Please try again. ");
                                 continue;
                             }
 
-                            if (checkedOutResources[namePosition].Count == 3) //checks to make sure the user doesnt have more than 3 resources checked out
+                            if (checkedOutResources[namePosition].Count == maxCheckedOutResources) //checks to make sure the user doesnt have more than 3 resources checked out
                             {
                                 Console.WriteLine(nameInput + " has checked out the maximum number of resources.");
                                 doubleContinue = true;
@@ -286,7 +288,7 @@ namespace Project_Wek
 
                             if (!LCResources.Contains(resourceInput)) //checks to make sure the resource is available
                             {
-                                Console.WriteLine("Error: Request Unavailable.\n");
+                                Console.WriteLine("\aError: Request Unavailable.\n");
                                 continue;
                             }
 
@@ -299,7 +301,7 @@ namespace Project_Wek
 
                             checkedOutResources[namePosition].Add(resourceInput); //adds the resource to the checked out resources
 
-                            Console.WriteLine("Would you like to checkout another resource? Enter \"yes\" or \"no\".");
+                            Console.WriteLine("\nWould you like to checkout another resource? Enter \"yes\" or \"no\".");
 
                             string moreCheckout = Console.ReadLine().ToLower();
 
@@ -368,7 +370,7 @@ namespace Project_Wek
 
                             if (!checkedOutResources[namePosition].Contains(resourceInput)) //checks to see if the resource is actually in the user's checked out list 
                             {
-                                Console.WriteLine("Error: Request Unavailable");
+                                Console.WriteLine("\aError: Request Unavailable");
                             }
 
                             if (checkedOutResources[namePosition].Count == 0) //checks to see if there is anything to return
@@ -386,7 +388,7 @@ namespace Project_Wek
                                 LCResources.Sort(); //resorts the list once the resource has been readded
                             }
 
-                            Console.WriteLine("Would you like to return another resource? Enter \"yes\" or \"no\".");
+                            Console.WriteLine("\nWould you like to return another resource? Enter \"yes\" or \"no\".");
 
                             string moreReturn = Console.ReadLine().ToLower();
 
@@ -437,14 +439,14 @@ namespace Project_Wek
 
                                 if (counter == 2) //restarts the program if the password is entered incorrectly too many times
                                 {
-                                    Console.WriteLine("You have entered the password wrong too many times. Restarting...");
+                                    Console.WriteLine("\nYou have entered the password wrong too many times. Restarting...");
                                     doubleContinue = true;
                                     break;
                                 }
 
                                 if (!passwordInput.Equals(password)) //checks to make sure the password is correct. this part is case sensitive
                                 {
-                                    Console.WriteLine("INVALID PASSWORD!!!");
+                                    Console.WriteLine("\a\a\aINVALID PASSWORD!!!");
                                     counter++; //increments the password counter to count the number of invalid attempts
                                     continue;
                                 }
@@ -498,14 +500,14 @@ namespace Project_Wek
 
                                             if (students.Contains(newStudent))
                                             {
-                                                Console.WriteLine("That student already exists!");
+                                                Console.WriteLine("\aThat student already exists!");
                                                 continue;
                                             }
 
                                             LCStudents.Add(newStudent);
                                             LCStudents.Sort(); //resorts the list once the new student is added
 
-                                            Console.WriteLine("Would you like to enter another student? Enter \"yes\" or \"no\".");
+                                            Console.WriteLine("\nWould you like to enter another student? Enter \"yes\" or \"no\".");
                                             string addInput = Console.ReadLine().ToLower();
 
                                             if (addInput == "yes")
@@ -554,7 +556,7 @@ namespace Project_Wek
                                                 continue;
                                             }
 
-                                            Console.WriteLine("Would you like to enter another resource? Type \"yes\" or \"no\".");
+                                            Console.WriteLine("\nWould you like to enter another resource? Type \"yes\" or \"no\".");
 
                                             string addInput = Console.ReadLine().ToLower();
 
@@ -599,11 +601,11 @@ namespace Project_Wek
                                             }
                                             else
                                             {
-                                                Console.WriteLine("ERROR: Request Unavailable. That student does not exist.");
+                                                Console.WriteLine("\aERROR: Request Unavailable. That student does not exist.");
                                                 continue;
                                             }
 
-                                            Console.WriteLine("Would you like to delete another student? Enter \"yes\" or \"no\".");
+                                            Console.WriteLine("\nWould you like to delete another student? Enter \"yes\" or \"no\".");
                                             string addInput = Console.ReadLine().ToLower();
 
                                             if (addInput == "yes")
@@ -658,11 +660,11 @@ namespace Project_Wek
                                             }
                                             else
                                             {
-                                                Console.WriteLine("ERROR: Request Unavailable. That resource does not exist.");
+                                                Console.WriteLine("\aERROR: Request Unavailable. That resource does not exist.");
                                                 continue;
                                             }
 
-                                            Console.WriteLine("Would you like to delete another resource? Enter \"yes\" or \"no\".");
+                                            Console.WriteLine("\nWould you like to delete another resource? Enter \"yes\" or \"no\".");
                                             string addInput = Console.ReadLine().ToLower();
 
                                             if (addInput == "yes")
@@ -723,6 +725,7 @@ namespace Project_Wek
                         }
 
                         break;
+
                     default: //default restarts since it wasn't a valid choice
                         Console.WriteLine("You didn't enter a valid menu choice. Restarting...");
                         doubleContinue = true;
